@@ -31,4 +31,9 @@ public class GridRenderer : MonoBehaviour
             _tileMap.SetTile(tilePosition, _aliveTile);
         }
     }
+
+    public void SetTileColor(Color newColor)
+    {
+        _tileMap.color = newColor;
+    }
 }

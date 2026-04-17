@@ -1,9 +1,11 @@
 ﻿<Solution>
   <Project Path="Unity.2D.Animation.Editor.csproj" />
   <Project Path="Unity.2D.Tilemap.Editor.csproj" />
+  <Project Path="UnityEngine.UI.csproj" />
   <Project Path="Unity.2D.Aseprite.Editor.csproj" />
   <Project Path="Unity.2D.Psdimporter.Editor.csproj" />
   <Project Path="UnityEngine.TestRunner.csproj" />
+  <Project Path="UnityEditor.UI.csproj" />
   <Project Path="Unity.Mathematics.csproj" />
   <Project Path="Unity.Multiplayer.Center.Editor.csproj" />
   <Project Path="Unity.2D.Common.Path.Editor.csproj" />
@@ -17,12 +19,14 @@
   <Project Path="Unity.VisualStudio.Editor.csproj" />
   <Project Path="Unity.PerformanceTesting.csproj" />
   <Project Path="Unity.2D.Tilemap.Extras.Editor.csproj" />
+  <Project Path="Unity.TextMeshPro.Editor.csproj" />
   <Project Path="Unity.InternalAPIEditorBridge.001.csproj" />
   <Project Path="Unity.2D.SpriteShape.Runtime.csproj" />
   <Project Path="Unity.2D.Animation.Runtime.csproj" />
   <Project Path="ScriptablePacker.csproj" />
   <Project Path="Unity.Burst.CodeGen.csproj" />
   <Project Path="Unity.2D.Tilemap.Extras.csproj" />
+  <Project Path="Unity.TextMeshPro.csproj" />
   <Project Path="Unity.2D.Aseprite.Common.csproj" />
   <Project Path="Unity.2D.IK.Editor.csproj" />
   <Project Path="Unity.InternalAPIEngineBridge.001.csproj" />

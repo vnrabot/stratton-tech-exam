@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class ConwayRules : IGameRules
 {
     // Rule 1 & 2: Lives if 2 or 3 neighbors

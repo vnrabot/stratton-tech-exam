@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 public class SimulationController : MonoBehaviour
@@ -19,7 +20,9 @@ public class SimulationController : MonoBehaviour
     public int GetGeneration() => ((IGameState)_simulation).CurrentGeneration;
     public int GetAliveCount() => ((IGameState)_simulation).AliveCellsCount;
 
-    void Start()
+    public UnityEvent<int, int> OnStatsUpdated = new UnityEvent<int, int>();
+
+    void Awake()
     {
         _simulation = new ConwaySimulation(new ConwayRules());
         _gridRenderer.Setup((IGameState)_simulation);
@@ -31,7 +34,7 @@ public class SimulationController : MonoBehaviour
         _simulation.SetCell(new Vector2Int(2, 1), true);
         _simulation.SetCell(new Vector2Int(1, 2), true);
 
-        _gridRenderer.UpdateVisuals();
+        UpdateVisualsAndBroadcast();
     }
 
     void Update()
@@ -46,7 +49,7 @@ public class SimulationController : MonoBehaviour
             {
                 _tickTimer = 0f;
                 _simulation.Tick();
-                _gridRenderer.UpdateVisuals();
+                UpdateVisualsAndBroadcast();
             }
         }
 
@@ -54,7 +57,7 @@ public class SimulationController : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             _simulation.Tick();
-            _gridRenderer.UpdateVisuals();
+            UpdateVisualsAndBroadcast();
         }
     }
 
@@ -75,9 +78,7 @@ public class SimulationController : MonoBehaviour
             if (_simulation != null)
                 _simulation.SetCell(logicPosition, true);
 
-            // Renderer to draw cell instantly
-            if (_gridRenderer != null)
-                _gridRenderer.UpdateVisuals();
+            UpdateVisualsAndBroadcast();
         }
     }
 
@@ -89,12 +90,20 @@ public class SimulationController : MonoBehaviour
     public void ClearBoard()
     {
         ((ConwaySimulation)_simulation).Clear();
-        _gridRenderer.UpdateVisuals();
+        UpdateVisualsAndBroadcast();
     }
 
     public void SetCellSize(float size)
     {
         _gridRenderer.SetCellScale(size);
+    }
+
+    private void UpdateVisualsAndBroadcast()
+    {
+        if (_gridRenderer != null)
+            _gridRenderer.UpdateVisuals();
+
+        OnStatsUpdated?.Invoke(GetGeneration(), GetAliveCount());
     }
 
     #endregion

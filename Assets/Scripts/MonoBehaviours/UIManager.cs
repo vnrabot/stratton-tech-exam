@@ -11,7 +11,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Slider _cellSizeSlider;
     [SerializeField] private Button _clearButton;
     [SerializeField] private TMP_Dropdown _colorDropdown;
-
+    [SerializeField] private TextMeshProUGUI _generationText;
+    [SerializeField] private TextMeshProUGUI _aliveCountText;
     [Header("System References")]
     [SerializeField] private SimulationController _simulationController;
     [SerializeField] private Camera _mainCamera;
@@ -54,6 +55,25 @@ public class UIManager : MonoBehaviour
         _simulationController.SetCellSize(_cellSizeSlider.value);
 
         ChangeColor(_colorDropdown.value);
+
+        _simulationController.OnStatsUpdated.AddListener(RefreshDataDisplay);
+
+        RefreshDataDisplay(_simulationController.GetGeneration(), _simulationController.GetAliveCount());
+    }
+
+    void OnDestroy()
+    {
+        if (_simulationController != null)
+        {
+            _simulationController.OnStatsUpdated.RemoveListener(RefreshDataDisplay);
+        }
+
+        _playPauseToggle.onValueChanged.RemoveAllListeners();
+        _speedSlider.onValueChanged.RemoveAllListeners();
+        _zoomSlider.onValueChanged.RemoveAllListeners();
+        _cellSizeSlider.onValueChanged.RemoveAllListeners();
+        _clearButton.onClick.RemoveAllListeners();
+        _colorDropdown.onValueChanged.RemoveAllListeners();
     }
 
     public void ChangeColor(int index)
@@ -72,5 +92,11 @@ public class UIManager : MonoBehaviour
         Debug.Log($"COlor changed to {selectedColor}");
 
         _gridRenderer.SetTileColor(selectedColor);
+    }
+
+    private void RefreshDataDisplay(int generation, int aliveCount)
+    {
+        _generationText.text = $"CURRENT GENERATION: {generation}";
+        _aliveCountText.text = $"ALIVE:  {aliveCount}";
     }
 }

@@ -22,25 +22,15 @@ public class CameraController : MonoBehaviour
 
     private void HandlePanning()
     {
-        float moveX = Input.GetAxisRaw("Horizontal");
-        float moveY = Input.GetAxisRaw("Vertical");
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
 
-        Vector3 moveDirection = new Vector3(moveX, moveY, 0).normalized;
-
-        transform.position += moveDirection * _panSpeed * Time.deltaTime;
-    }
-
-    private void HandleZooming()
-    {
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-
-        if (scroll != 0f)
+        if (horizontal != 0 || vertical != 0)
         {
-            // Adjust Zoom size
-            _camera.orthographicSize -= scroll * _zoomSpeed;
+            Vector3 direction = new Vector3(horizontal, vertical, 0f).normalized;
 
-            // Clamp zoom values to prevent flipping or going out too far.
-            _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize, _minZoom, _maxZoom);
+            float speedScale = _camera.orthographicSize / 10f;
+            transform.position += direction * (_panSpeed * speedScale * Time.deltaTime);
         }
     }
 }

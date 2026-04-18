@@ -92,5 +92,10 @@ public class SimulationController : MonoBehaviour
         _gridRenderer.UpdateVisuals();
     }
 
+    public void SetCellSize(float size)
+    {
+        _gridRenderer.SetCellScale(size);
+    }
+
     #endregion
 }

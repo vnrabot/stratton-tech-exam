@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Toggle _playPauseToggle;
     [SerializeField] private Slider _speedSlider;
     [SerializeField] private Slider _zoomSlider;
+    [SerializeField] private Slider _cellSizeSlider;
     [SerializeField] private Button _clearButton;
     [SerializeField] private TMP_Dropdown _colorDropdown;
 
@@ -27,19 +28,30 @@ public class UIManager : MonoBehaviour
         // Zoom Slider settings
         _zoomSlider.minValue = 5f;
         _zoomSlider.maxValue = 50f;
-        _zoomSlider.value = _mainCamera.orthographicSize;
+        float invertedStartZoom = (_zoomSlider.maxValue + _zoomSlider.minValue) - _mainCamera.orthographicSize;
+        _zoomSlider.value = invertedStartZoom;
+
+        //Cell Size Slider
+        _cellSizeSlider.minValue = 0.2f;
+        _cellSizeSlider.maxValue = 3.0f;
+        _cellSizeSlider.value = 1.0f;
 
         // Event Listeners
         _playPauseToggle.onValueChanged.AddListener(isOn => _simulationController.SetPlaying(isOn));
         _speedSlider.onValueChanged.AddListener(value => _simulationController.SetSpeed(value));
-        _zoomSlider.onValueChanged.AddListener(value => _mainCamera.orthographicSize = value);
+        _zoomSlider.onValueChanged.AddListener(value =>
+        {
+            float invertedZoom = (_zoomSlider.maxValue + _zoomSlider.minValue) - value;
+            _mainCamera.orthographicSize = invertedZoom;
+        });
+        _cellSizeSlider.onValueChanged.AddListener(value => _simulationController.SetCellSize(value));
         _clearButton.onClick.AddListener(() => _simulationController.ClearBoard());
         _colorDropdown.onValueChanged.AddListener(ChangeColor);
 
 
         _simulationController.SetPlaying(_playPauseToggle.isOn);
         _simulationController.SetSpeed(_speedSlider.value);
-        _mainCamera.orthographicSize = _zoomSlider.value;
+        _simulationController.SetCellSize(_cellSizeSlider.value);
 
         ChangeColor(_colorDropdown.value);
     }

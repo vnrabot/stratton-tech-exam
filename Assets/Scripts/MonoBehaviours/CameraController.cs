@@ -18,7 +18,6 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         HandlePanning();
-        HandleZooming();
     }
 
     private void HandlePanning()

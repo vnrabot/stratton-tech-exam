@@ -63,6 +63,7 @@ public class UIManager : MonoBehaviour
 
     void OnDestroy()
     {
+        // Remove Events to prevent memory leaks
         if (_simulationController != null)
         {
             _simulationController.OnStatsUpdated.RemoveListener(RefreshDataDisplay);
@@ -89,14 +90,14 @@ public class UIManager : MonoBehaviour
             _ => Color.red
         };
 
-        Debug.Log($"COlor changed to {selectedColor}");
+        Debug.Log($"Color changed to {selectedColor}");
 
         _gridRenderer.SetTileColor(selectedColor);
     }
 
     private void RefreshDataDisplay(int generation, int aliveCount)
     {
-        _generationText.text = $"CURRENT GENERATION: {generation}";
+        _generationText.text = $"GENERATION: {generation}";
         _aliveCountText.text = $"ALIVE:  {aliveCount}";
     }
 }

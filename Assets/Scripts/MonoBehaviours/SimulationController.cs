@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 
 public class SimulationController : MonoBehaviour
@@ -63,10 +64,13 @@ public class SimulationController : MonoBehaviour
 
     private void HandleMouseInput()
     {
-        if (Input.GetMouseButtonDown(0))
+        //Prevent interaction when clicking on UI elements
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+
+        if (Input.GetMouseButton(0))
         {
             // Get mouse pixel position and convert to 3D world position
-            UnityEngine.Vector3 worldPosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 worldPosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
             // Snapshat raw 3D position to Grid integer
             Vector3Int cellPosition = _tilemap.WorldToCell(worldPosition);
